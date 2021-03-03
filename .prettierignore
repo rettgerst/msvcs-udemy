@@ -1,0 +1,8 @@
+package*.json
+docs/
+dist/
+coverage/
+**/build/
+packages/client
+**/node_modules
+packages/api/openapi-spec.json

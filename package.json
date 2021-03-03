@@ -1,0 +1,19 @@
+{
+  "name": "msvcs-udemy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^6.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "concurrently -k npm:client npm:comments npm:posts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && npm run start",
+    "comments": "cd comments && npm run start",
+    "posts": "cd posts && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
