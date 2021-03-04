@@ -8,6 +8,9 @@ export default function PostCreate() {
 
 		await fetch('http://localhost:4000/posts', {
 			method: 'post',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				title
 			})

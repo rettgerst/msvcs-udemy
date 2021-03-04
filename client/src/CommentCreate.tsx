@@ -8,6 +8,9 @@ export default function CommentCreate({ postId }: { postId: string }) {
 
 		await fetch(`http://localhost:4001/posts/${postId}/comments`, {
 			method: 'post',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				content
 			})
