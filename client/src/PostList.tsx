@@ -2,13 +2,19 @@ import React, { useState, useEffect } from 'react';
 import CommentCreate from './CommentCreate';
 import CommentList from './CommentList';
 
+interface Posts {
+	[id: string]: {
+		id: string;
+		title: string;
+		comments: Array<{ id: string; content: string; postId: string }>;
+	};
+}
+
 export default function PostList() {
-	const [posts, setPosts] = useState<
-		Record<string, { id: string; title: string }>
-	>({});
+	const [posts, setPosts] = useState<Posts>({});
 
 	useEffect(() => {
-		fetch('http://localhost:4000/posts')
+		fetch('http://localhost:4002/posts')
 			.then(r => r.json())
 			.then(setPosts);
 	}, []);
@@ -22,7 +28,7 @@ export default function PostList() {
 			>
 				<div className="card-body">
 					<h3>{post.title}</h3>
-					<CommentList postId={post.id} />
+					<CommentList comments={posts[post.id].comments} postId={post.id} />
 					<CommentCreate postId={post.id} />
 				</div>
 			</div>

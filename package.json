@@ -8,11 +8,13 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "concurrently -k npm:client npm:comments npm:posts",
+    "start": "concurrently -k npm:client npm:comments npm:posts npm:events npm:query",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd client && npm run start",
     "comments": "cd comments && npm run start",
-    "posts": "cd posts && npm run start"
+    "posts": "cd posts && npm run start",
+    "events": "cd events && npm run start",
+    "query": "cd query && npm run start"
   },
   "keywords": [],
   "author": "",

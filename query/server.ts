@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import { v4 as uuid } from 'uuid';
 import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
 
@@ -8,6 +7,11 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+interface Comment {
+	id: string;
+	content: string;
+}
 
 const bus = 'http://localhost:4005/events';
 
@@ -26,9 +30,15 @@ function emitEvent(event: Event) {
 	});
 }
 
+interface Comment {
+	id: string;
+	content: string;
+}
+
 interface Post {
 	id: string;
 	title: string;
+	comments: Comment[];
 }
 
 const posts: Record<string, Post> = {};
@@ -37,20 +47,26 @@ app.get('/posts', (req, res) => {
 	res.json(posts);
 });
 
-app.post('/posts', (req, res) => {
-	const id = uuid();
-	const { title } = req.body;
-	posts[id] = { id, title };
-	emitEvent({ type: 'PostCreated', data: { id, title } });
-	res.json(posts);
-});
-
 app.post('/events', (req, res) => {
 	console.log('Received Event', req.body.type);
+
+	const { type, data } = req.body;
+
+	if (type === 'PostCreated') {
+		const { id, title } = data;
+		posts[id] = { id, title, comments: [] };
+	} else if (type === 'CommentCreated') {
+		const { id, content, postId } = data;
+
+		const post = posts[postId];
+		post.comments.push({ id, content });
+	}
+
+	console.log(JSON.stringify(posts, undefined, '\t'));
 
 	res.send({});
 });
 
-app.listen(4000, () => {
-	console.log('listening on 4000');
+app.listen(4002, () => {
+	console.log('listening on 4002');
 });
